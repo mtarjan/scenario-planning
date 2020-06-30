@@ -28,6 +28,8 @@ dat<-sqlQuery(con, qry); head(dat) ##import the queried table
 ##when finished with db, close the connection
 odbcCloseAll()
 
-fig <- ggplot(data = subset(dat, select=c("Pond", "Season", "BestSalinity")), aes(x = Pond, y = BestSalinity))
+fig <- ggplot(data = subset(dat, select=c("Pond", "Season", "BestSalinity"), Agency=="SFBBO"), aes(x = Pond, y = BestSalinity))
 fig <- fig + geom_boxplot()
+fig <- fig + facet_wrap(facets = ~str_sub(Pond, start = 0, end = 1), scales = "free_x")
+fig <- fig + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 fig
